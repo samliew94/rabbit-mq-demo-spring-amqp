@@ -30,6 +30,6 @@ execute `docker-compose up --build` or without the `--build` on subsequent runs.
 12. The receivers are configured in such a way that Queue1 is to be consumed by `receiver-1` and Queue2 by `receiver-2`.
 13. The console output showcases this:
 
-![screenshot](screenshot.png)
+![screenshot](screenshot.png) 
 
 
