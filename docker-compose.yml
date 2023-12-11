@@ -1,0 +1,54 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3.11-management-alpine
+    ports:
+      - "5671:5671"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 1s
+      timeout: 3s
+      retries: 30
+  receiver-1:
+    build:
+      context: .
+      dockerfile: .    
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: 'receiver,first'
+      DEMO_DURATION: 60000      
+      SPRING_RABBITMQ_HOST: rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+  receiver-2:
+    build:
+      context: .
+      dockerfile: .    
+    ports:
+      - "8082:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: 'receiver,second'
+      DEMO_DURATION: 60000      
+      SPRING_RABBITMQ_HOST: rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+  sender:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: 'sender'
+      DEMO_DURATION: 1000
+      SPRING_RABBITMQ_HOST: rabbitmq
+    depends_on:
+      - rabbitmq
+      - receiver-1
+      - receiver-2
+      
+
+

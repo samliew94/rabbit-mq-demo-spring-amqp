@@ -1,0 +1,37 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "sender",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.rabbitmqdemo.RabbitmqDemoApplication",
+            "projectName": "rabbitmq-demo",
+            "args": "--demo.duration=10000",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": "-Dspring.profiles.active=sender"
+        },
+        {
+            "type": "java",
+            "name": "receiver-1",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.rabbitmqdemo.RabbitmqDemoApplication",
+            "projectName": "rabbitmq-demo",
+            "args": "--demo.duration=60000 --server.port=8081",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": "-Dspring.profiles.active=receiver,first"
+        },
+        {
+            "type": "java",
+            "name": "receiver-2",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.rabbitmqdemo.RabbitmqDemoApplication",
+            "projectName": "rabbitmq-demo",
+            "args": "--demo.duration=60000 --server.port=8082",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": "-Dspring.profiles.active=receiver,second"
+        },
+    ]
+}
